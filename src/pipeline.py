@@ -31,11 +31,22 @@ def load_university_list(csv_path=None):
     return df
 
 
-def collect_all_subpages(df):
+def collect_all_subpages(df, num=None):
     """Step 1: Discover subpages for all universities.
+
+    Parameters
+    ----------
+    df : DataFrame
+        Input DataFrame with Medical_School and Website columns.
+    num : int or None
+        If specified, randomly sample *num* universities from df.
+        If None (default), process all universities.
 
     Returns a DataFrame with columns: Medical_School, Website, Subpage_URL
     """
+    if num is not None:
+        df = df.sample(n=min(num, len(df)), random_state=None).reset_index(drop=True)
+
     rows = []
     total = len(df)
     for idx, row in df.iterrows():
